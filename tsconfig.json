@@ -2,6 +2,6 @@
 	"compilerOptions": {
 		"strict": true,
 		"forceConsistentCasingInFileNames": true,
-		"typeRoots": ["./types"]
+		"typeRoots": ["./node_modules/@types", "./types"]
 	}
 }

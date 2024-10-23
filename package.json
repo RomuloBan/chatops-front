@@ -3,6 +3,6 @@
 		"@netlify/functions": "^2.8.2"
 	},
 	"devDependencies": {
-		"@types/node": "^20.1.4"
+		"@types/node": "^22.7.9"
 	}
 }
