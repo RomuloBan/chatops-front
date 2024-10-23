@@ -1,15 +1,6 @@
-import type { Handler } from "@netlify/functions";
+import type { Context } from "@netlify/functions";
 
 
-export const handler: Handler = async () => {
-	// TODO validate the Slack request
-
-	// TODO handle slash commands
-
-	// TODO handle interactivity (e.g. context commands, modals)
-
-	return {
-		statusCode: 200,
-		body: 'TODO: handle Slack commands and interactivity',
-	};
+export default async (req: Request, context: Context) => {
+	return new Response('{ "message": "Helloooo"}', { status: 200, headers: { 'Content-Type': 'application/json' } })
 };
