@@ -1,7 +1,7 @@
 import type { Context } from "@netlify/functions";
 
 import { parse } from "querystring";
-import { slackApi } from "./util/slack";
+import { slackApi, verifySlackRequest } from "./util/slack";
 
 async function handleSlashCommand(payload: SlackSlashCommandPayload) {
 	switch (payload.command) {
@@ -29,6 +29,14 @@ export default async (req: Request, context: Context) => {
 
 	const body = await req.text();
 	const parsedBody = parse(body) as SlackPayload;
+	const isValid = verifySlackRequest(req, body);
+
+	if (!isValid) {
+		console.log('invalid request');
+		return new Response('invalid request', { status: 400 })
+	}
+
+
 	if (parsedBody.command) {
 		return handleSlashCommand(parsedBody as SlackSlashCommandPayload);
 	}
