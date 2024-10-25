@@ -4,7 +4,7 @@ import { blocks, slackApi } from "./util/slack";
 
 const postnewNotionItemsToSlack = async () => {
   const items = await getNewItems();
-
+  console.log("New items:", items);
   await slackApi("chat.postMessage", {
     channel: 'C07TV3XRD96',
     blocks: [
