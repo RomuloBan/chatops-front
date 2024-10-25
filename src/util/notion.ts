@@ -19,14 +19,14 @@ export async function notionApi(endpoint: String, body: {} = Object) {
 }
 
 export async function getNewItems(): Promise<NewItem[]> {
-	const notionData = await notionApi(`databases/${process.env.NOTION_DATABASE_ID}/query`, {
+	const notionData = await notionApi(`/databases/${process.env.NOTION_DATABASE_ID}/query`, {
 		filter: {
 			property: 'Status',
 			status: {
 				equals: 'new',
 			},
-			page_size: 100,
 		},
+		page_size: 100,
 	});
 
 	const newItems = notionData.results.map((item: NotionItem) => {
