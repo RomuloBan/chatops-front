@@ -2,6 +2,7 @@ import type { Context } from "@netlify/functions";
 
 import { parse } from "querystring";
 import { modal, slackApi, verifySlackRequest, blocks } from "./util/slack";
+import { saveItem } from "./util/notion";
 
 async function handleSlashCommand(payload: SlackSlashCommandPayload) {
 	switch (payload.command) {
@@ -59,6 +60,8 @@ async function handleInteractivity(payload: SlackModalPayload) {
 				spiceLevel: data.spice_level_block.spice_level.selected_option.value,
 				submitter: payload.user.name,
 			}
+
+			await saveItem(fields);
 
 			await slackApi('chat.postMessage', {
 				channel: 'C07TV3XRD96',
