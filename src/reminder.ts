@@ -6,7 +6,7 @@ const postnewNotionItemsToSlack = async () => {
   const items = await getNewItems();
 
   await slackApi("chat.postMessage", {
-    channel: '',
+    channel: 'C07TV3XRD96',
     blocks: [
       blocks.section({
         text: [
