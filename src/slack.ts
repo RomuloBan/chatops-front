@@ -49,6 +49,29 @@ async function handleSlashCommand(payload: SlackSlashCommandPayload) {
 	return new Response('', { status: 200})
 }
 
+async function handleInteractivity(payload: SlackModalPayload) {
+	const callback_id = payload.callback_id ?? payload.view.callback_id;
+	switch(callback_id) {
+		case 'foodfight-modal':
+			const data = payload.view.state.values;
+			const fields = {
+				opinion: data.opinion_block.opinion.value,
+				spiceLevel: data.spice_level_block.spice_level.selected_option.value,
+				submitter: payload.user.name,
+			}
+
+			await slackApi('chat.postMessage', {
+				channel: 'C07TV3XRD96',
+				text: `Oh dang, y'all! :eyes: <@${payload.user.id}> just started a food fight with a ${fields.spiceLevel} take:\n\n*${fields.opinion}*\n\n...discuss.`,
+			});
+			break;
+		default:
+			console.log(`No handler defined for ${callback_id}`);
+			return new Response(`No handler defined for ${callback_id}`, { status: 400 });
+	}
+	return new Response('', { status: 200 });
+}
+
 export default async (req: Request, context: Context) => {
 
 	const body = await req.text();
@@ -63,6 +86,11 @@ export default async (req: Request, context: Context) => {
 
 	if (parsedBody.command) {
 		return handleSlashCommand(parsedBody as SlackSlashCommandPayload);
+	}
+
+	if (parsedBody.payload) {
+		const payload = JSON.parse(parsedBody.payload);
+		return handleInteractivity(payload);
 	}
 	
 	return new Response('{"message": "helo slack"}', { status: 200, headers: { 'Content-Type': 'application/json' } })
