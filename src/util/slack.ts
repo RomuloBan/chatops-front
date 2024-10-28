@@ -1,6 +1,4 @@
-import type { HandlerEvent } from "@netlify/functions"
 import { createHmac } from "crypto"
-import { parse } from "querystring";
 
 export function slackApi(
 	endpoint: SlackApiEndpoint,

@@ -26,7 +26,7 @@ const postnewNotionItemsToSlack = async () => {
 export default async (req: Request) => {
   const { next_run } = await req.json();
   console.log("Received event! Next invocation at:", next_run);
-  postnewNotionItemsToSlack();
+  await postnewNotionItemsToSlack();
 }
 
 export const config: Config = {
